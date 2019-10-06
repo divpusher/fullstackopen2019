@@ -7,22 +7,17 @@ const Button = ({ handleClick, text }) => (
 )
 
 
-const Statistic = (props) => {
-  return (
-    <>
-      <tr><td>{props.text}</td><td>{props.value}</td></tr>
-    </>
-  )
-}
+const Statistic = ({ text, value }) => (
+  <tr><td>{text}</td><td>{value}</td></tr>
+)
+
 
 
 const Statistics = (props) => {
 
   if (props.good + props.neutral + props.bad === 0){
     return (
-      <>
-        <p>No feedback given</p>
-      </>
+      <p>No feedback given</p>
     )
   }
 
