@@ -1,9 +1,27 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
+
+const MostVoted = ({index, points}) => {
+  if (!index){
+    return (
+      <p><i>No votes yet...</i></p>
+    )
+  }
+
+  return (
+    <>
+      <p>{anecdotes[index]}</p>
+      <p><i>has {points[index]} vote(s)</i></p>
+    </>
+  )    
+}
+
+
 const App = (props) => {
   const [selected, setSelected] = useState(0)
   const [points, setPoints] = useState(new Uint8Array(anecdotes.length))
+  const [mostVoted, setMostVoted] = useState()
 
   const getRandom = (max) => {
     setSelected(Math.floor(Math.random() * max));
@@ -13,14 +31,19 @@ const App = (props) => {
     const copy = [...points];
     copy[selected] += 1;
     setPoints(copy);
+
+    setMostVoted(copy.indexOf(Math.max.apply(null, copy)))
   }
 
   return (
     <div>
+      <h1>Anecdote of the day</h1>
       <p>{props.anecdotes[selected]}</p>
       <p><i>has {points[selected]} vote(s)</i></p>
       <button onClick={vote}>vote</button>
       <button onClick={() => getRandom(anecdotes.length)}>next anecdote</button>
+      <h1>Anecdote with most votes</h1>
+      <MostVoted index={mostVoted} points={points} />
     </div>
   )
 }
