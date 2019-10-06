@@ -8,6 +8,15 @@ const Button = ({ handleClick, text }) => (
 
 
 const Statistics = (props) => {
+
+  if (props.good + props.neutral + props.bad == 0){
+    return (
+      <>
+        <p>No feedback given</p>
+      </>
+    )
+  }
+
   const calcAverage = () => (
       ((props.good * 1) + (props.bad * -1)) / (props.good + props.neutral + props.bad)
   )
@@ -26,10 +35,12 @@ const Statistics = (props) => {
       <p>positive {calcPositive() || 0} %</p>
     </>
   )
+
 }
 
 
 const App = () => {
+
   // save clicks of each button to own state
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
@@ -45,6 +56,7 @@ const App = () => {
       <Statistics good={good} neutral={neutral} bad={bad} />
     </div>
   )
+  
 }
 
 
