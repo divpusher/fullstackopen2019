@@ -20,11 +20,13 @@ const Content = ({ parts }) => (
 
 
 const Total = ({ parts }) => {  
-  let n = 0
-  parts.map(obj => n = n + obj.exercises)
+  const total = parts.reduce(
+    (acc, currVal) => acc + currVal.exercises
+    ,0
+  )
 
   return (
-    <p><b>total of {n} exercises</b></p>
+    <p><b>total of {total} exercises</b></p>
   )
 }
 
