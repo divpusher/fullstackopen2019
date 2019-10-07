@@ -19,10 +19,21 @@ const Content = ({ parts }) => (
 )  
 
 
+const Total = ({ parts }) => {  
+  let n = 0
+  parts.map(obj => n = n + obj.exercises)
+
+  return (
+    <p><b>total of {n} exercises</b></p>
+  )
+}
+
+
 const Course = ({ course }) => (
   <div>
     <Header title={course.name} />   
     <Content parts={course.parts} />
+    <Total parts={course.parts} />
   </div>
 )
 
@@ -47,6 +58,11 @@ const App = () => {
         name: 'State of a component',
         exercises: 14,
         id: 3
+      },
+      {
+        name: 'Redux',
+        exercises: 11,
+        id: 4
       }
     ]
   }
