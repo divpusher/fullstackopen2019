@@ -19,8 +19,20 @@ const App = () => {
   ]) 
   const [ newName, setNewName ] = useState('')
 
+
   const addPerson = (event) => {
     event.preventDefault()
+
+    const findName = (elem) => {
+      return elem.name === newName
+    }
+
+    if(persons.findIndex(findName) >= 0){
+      alert(`${newName} is already added to phonebook`)
+      return
+    }
+    
+
     const nameObject = {
       name: newName 
     }
