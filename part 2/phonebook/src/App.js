@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 
 const Persons = ({ persons }) => {  
   const rows = () => persons.map(person => 
-    <div key={person.name}>{person.name}</div>
+    <div key={person.name}>{person.name} {person.number}</div>
   )
 
   return (
@@ -15,9 +15,10 @@ const Persons = ({ persons }) => {
 const App = () => {
 
   const [ persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
+    { name: 'Arto Hellas', number: '040-1234567' }
   ]) 
   const [ newName, setNewName ] = useState('')
+  const [ newNumber, setNewNumber ] = useState('')
 
 
   const addPerson = (event) => {
@@ -31,18 +32,24 @@ const App = () => {
       alert(`${newName} is already added to phonebook`)
       return
     }
-    
+
 
     const nameObject = {
-      name: newName 
+      name: newName,
+      number: newNumber 
     }
 
     setPersons(persons.concat(nameObject))
     setNewName('')
+    setNewNumber('')
   }
 
-  const handlePersonChange = (event) => {
+  const handleNameChange = (event) => {
     setNewName(event.target.value)
+  }
+
+  const handleNumberChange = (event) => {
+    setNewNumber(event.target.value)
   }
 
 
@@ -53,7 +60,13 @@ const App = () => {
         <div>
           name: <input 
             value={newName} 
-            onChange={handlePersonChange} 
+            onChange={handleNameChange} 
+            />
+        </div>
+        <div>
+          number: <input 
+            value={newNumber} 
+            onChange={handleNumberChange} 
             />
         </div>
         <div>
