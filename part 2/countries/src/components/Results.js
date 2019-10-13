@@ -2,14 +2,18 @@ import React from 'react'
 import CountryDetails from './CountryDetails'
 
 
-const Results = ({ results, handleCountryDisplay }) => {
+const Results = ({ results, handleCountryDisplay, weather, setWeather }) => {
 
   if(results.length > 10){
     return <div>Too many matches, specify another filter</div>  
   }
 
   if(results.length === 1){
-    return <CountryDetails country={results[0]} />    
+    return <CountryDetails 
+      country={results[0]} 
+      weather={weather} 
+      setWeather={setWeather} 
+    />    
   }
   
 

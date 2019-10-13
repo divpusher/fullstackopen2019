@@ -8,6 +8,12 @@ const App = () => {
   const [countries, setCountries] = useState([])
   const [query, setQuery] = useState('')
   const [filteredCountries, setFilteredCountries] = useState([])
+  const [weather, setWeather] = useState({
+    temp: '-',
+    icon: '',
+    wind: '-',
+    wind_dir: '-'
+  })
 
   
   const handleSearch = (event) => {
@@ -44,6 +50,10 @@ const App = () => {
   }, []) 
 
 
+
+
+
+
   return (
     <>
       <SearchForm 
@@ -54,6 +64,8 @@ const App = () => {
       <Results 
         results={filteredCountries} 
         handleCountryDisplay={handleCountryDisplay} 
+        weather={weather}
+        setWeather={setWeather}
       />
     </>
   )
