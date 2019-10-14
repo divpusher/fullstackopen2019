@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
-import axios from 'axios'
+import personService from './services/persons'
 
 
 const App = () => {
@@ -14,11 +14,11 @@ const App = () => {
 
 
   useEffect(() => {     
-    axios      
-      .get('http://localhost:3001/persons')      
-      .then(response => {             
-        setPersons(response.data)      
-      })  
+    personService
+      .getAll()
+      .then(initialPersons => {        
+        setPersons(initialPersons)      
+      })
   }, [])  
 
 
@@ -30,20 +30,28 @@ const App = () => {
     }
 
     if(persons.findIndex(findName) >= 0){
-      alert(`${newName} is already added to phonebook`)
+      alert(`${newName} is already added to phonebook`)  
+      setNewName('')
+      setNewNumber('')
+      
       return
     }
-
 
     const nameObject = {
       name: newName,
       number: newNumber 
     }
 
-    setPersons(persons.concat(nameObject))
-    setNewName('')
-    setNewNumber('')
+    personService
+      .create(nameObject)
+      .then(returnedPerson => {        
+        setPersons(persons.concat(returnedPerson))  
+        setNewName('')
+        setNewNumber('')
+      })
+
   }
+
 
   const handleNameChange = (event) => {
     setNewName(event.target.value)
