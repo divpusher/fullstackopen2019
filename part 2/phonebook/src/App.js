@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
+import Notification from './components/Notification'
 import personService from './services/persons'
 
 
@@ -11,6 +12,7 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ newFilter, setNewFilter ] = useState('')
+  const [ message, setMessage] = useState({ text: '', type: '' })
 
 
   useEffect(() => {     
@@ -37,8 +39,18 @@ const App = () => {
         .update(dupePerson.id, dupePerson)
         .then(returnedPerson => {
           setPersons(persons.map(person => person.id !== dupePerson.id ? person : returnedPerson))
+
+          setMessage({
+            text: `${newName} was updated`,
+            type: 'success'
+          })
+          setTimeout(() => {          
+            setMessage({ text: '', type: '' })        
+          }, 3000)
+
           setNewName('')
           setNewNumber('')
+
         })
 
       return
@@ -56,7 +68,16 @@ const App = () => {
     personService
       .create(nameObject)
       .then(returnedPerson => {        
-        setPersons(persons.concat(returnedPerson))  
+        setPersons(persons.concat(returnedPerson))
+
+        setMessage({
+          text: `Added ${newName}`,
+          type: 'success'
+        })
+        setTimeout(() => {          
+          setMessage({ text: '', type: '' })        
+        }, 5000)
+
         setNewName('')
         setNewNumber('')
       })
@@ -89,6 +110,9 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+
+      <Notification message={message} />
+
       <Filter 
         handleFilterChange={handleFilterChange} 
         newFilter={newFilter} 

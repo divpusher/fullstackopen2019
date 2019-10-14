@@ -22,8 +22,18 @@
     },
     {
       "name": "Dini",
-      "number": "111",
+      "number": "666",
       "id": 5
+    },
+    {
+      "name": "Alma",
+      "number": "456",
+      "id": 6
+    },
+    {
+      "name": "Peti",
+      "number": "456",
+      "id": 7
     }
   ]
 }
