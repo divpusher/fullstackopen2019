@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Persons = ({ persons, filter }) => {    
+const Persons = ({ persons, filter, handleDeletePerson }) => {    
 
   const rowsToShow = filter
     ? persons.filter(
@@ -10,7 +10,11 @@ const Persons = ({ persons, filter }) => {
     : persons
 
   const rows = () => rowsToShow.map(person => 
-    <div key={person.name}>{person.name} {person.number}</div>
+    <div key={person.id}>{person.name} {person.number} 
+      <button 
+        onClick={() => handleDeletePerson(person.id, person.name)}
+      >delete</button>
+    </div>
   )
 
   return (
