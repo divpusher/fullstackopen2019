@@ -25,17 +25,28 @@ const App = () => {
   const addPerson = (event) => {
     event.preventDefault()
 
-    const findName = (elem) => {
-      return elem.name === newName
-    }
+    let dupePerson = persons.find((elem) => elem.name === newName)
 
-    if(persons.findIndex(findName) >= 0){
-      alert(`${newName} is already added to phonebook`)  
-      setNewName('')
-      setNewNumber('')
+    if(dupePerson
+      && window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)
+    ){
       
+      dupePerson.number = newNumber
+
+      personService
+        .update(dupePerson.id, dupePerson)
+        .then(returnedPerson => {
+          setPersons(persons.map(person => person.id !== dupePerson.id ? person : returnedPerson))
+          setNewName('')
+          setNewNumber('')
+        })
+
+      return
+
+    }else if(dupePerson){
       return
     }
+
 
     const nameObject = {
       name: newName,
@@ -49,7 +60,6 @@ const App = () => {
         setNewName('')
         setNewNumber('')
       })
-
   }
 
 
@@ -66,7 +76,7 @@ const App = () => {
   }
 
   const handleDeletePerson = (id, name) => {
-    if (window.confirm(`Delete ${name}?`)) {       
+    if(window.confirm(`Delete ${name}?`)) {       
       personService
       .remove(id)
       .then(response => {
