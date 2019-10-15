@@ -50,7 +50,16 @@ const App = () => {
 
           setNewName('')
           setNewNumber('')
+        })
+        .catch(error => {      
+          setMessage({
+            text: `Information of ${newName} has already been removed from server`,
+            type: 'error'
+          })
 
+          setTimeout(() => {          
+            setMessage({ text: '', type: '' })
+          }, 3000)
         })
 
       return
@@ -102,6 +111,16 @@ const App = () => {
       .remove(id)
       .then(response => {
         setPersons(persons.filter(person => person.id !== id && person))
+      })
+      .catch(error => {      
+        setMessage({
+          text: `Information of ${newName} has already been removed from server`,
+          type: 'error'
+        })
+
+        setTimeout(() => {          
+          setMessage({ text: '', type: '' })
+        }, 3000)
       })
     }
   }
