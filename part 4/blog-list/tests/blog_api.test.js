@@ -27,6 +27,17 @@ test('all blogs are returned in JSON', async () => {
     .get('/api/blogs')
     .expect(200)
     .expect('Content-Type', /application\/json/)
+})
+
+
+
+
+test('IDs are defined', async () => {
+  const response = await api.get('/api/blogs')
+
+  response.body.map(post => {
+    expect(post.id).toBeDefined()
+  }) 
 
 })
 
