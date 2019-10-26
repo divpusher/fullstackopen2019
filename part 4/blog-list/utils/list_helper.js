@@ -7,6 +7,7 @@ const dummy = (blogs) => {
 }
 
 
+
 const totalLikes = (blogs) => {
   const reducer = (sum, post) => {
     return sum + post.likes
@@ -16,6 +17,7 @@ const totalLikes = (blogs) => {
 }
 
 
+
 const favoriteBlog = (blogs) => {
   const top = blogs.reduce(
     (prev, current) => (prev.likes > current.likes) ? prev : current
@@ -23,6 +25,7 @@ const favoriteBlog = (blogs) => {
 
   return top
 }
+
 
 
 const mostBlogs = (blogs) => {
@@ -42,9 +45,28 @@ const mostBlogs = (blogs) => {
 
 
 
+const mostLikes = (blogs) => {
+  const authors = _.groupBy(blogs, 'author')
+  let result = { author: '', likes: 0 }
+  let likes
+
+  for (let [key, value] of Object.entries(authors)) {
+    likes = value.reduce((sum, item) => sum + item.likes, 0)
+    if(likes > result.likes){
+      result.author = key
+      result.likes = likes    
+    }
+  }
+
+  return result
+}
+
+
+
 module.exports = {
   dummy,
   totalLikes,
   favoriteBlog,
-  mostBlogs
+  mostBlogs,
+  mostLikes
 }
