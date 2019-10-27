@@ -31,7 +31,6 @@ test('all blogs are returned in JSON', async () => {
 
 
 
-
 test('IDs are defined', async () => {
   const response = await api.get('/api/blogs')
 
@@ -39,6 +38,31 @@ test('IDs are defined', async () => {
     expect(post.id).toBeDefined()
   }) 
 
+})
+
+
+
+test('create new blog post', async () => {
+  const newBlog = {
+    title: 'Hello World',
+    author: 'divpusher',
+    url: 'https://divpusher.com',
+    likes: 0
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+
+  const blogsAtEnd = await helper.blogsInDb()  
+  expect(blogsAtEnd.length).toBe(helper.initialBlogs.length + 1)
+
+
+  const contents = blogsAtEnd.map(n => n.title)  
+  expect(contents).toContain('Hello World')
 })
 
 
