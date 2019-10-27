@@ -67,6 +67,27 @@ test('create new blog post', async () => {
 
 
 
+test('missing likes will default to 0', async () => {
+    const newBlog = {
+    title: 'Hello World',
+    author: 'divpusher',
+    url: 'https://divpusher.com'
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+
+  const blogsAtEnd = await helper.blogsInDb()
+  const lastBlog = blogsAtEnd[blogsAtEnd.length-1]
+  expect(lastBlog.likes).toBe(0)
+})
+
+
+
 afterAll(() => {
   mongoose.connection.close()
 })
