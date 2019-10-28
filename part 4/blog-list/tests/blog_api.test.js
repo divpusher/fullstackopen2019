@@ -109,7 +109,21 @@ test('missing title/url property is a bad request', async () => {
     .post('/api/blogs')
     .send(newBlog)
     .expect(400)
+})
 
+
+
+test('delete a post', async () => {
+  let blogsAtEnd = await helper.blogsInDb()
+  const firstPostId = blogsAtEnd[0].id
+
+  await api
+    .delete('/api/blogs/'+firstPostId)
+    .expect(204)
+
+
+  blogsAtEnd = await helper.blogsInDb()
+  expect(blogsAtEnd.length).toBe(helper.initialBlogs.length-1)
 })
 
 
