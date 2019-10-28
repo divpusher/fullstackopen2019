@@ -88,6 +88,32 @@ test('missing likes will default to 0', async () => {
 
 
 
+test('missing title/url property is a bad request', async () => {
+  let newBlog = {
+    title: 'Hello World',
+    author: 'divpusher'
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+
+
+  newBlog = {    
+    author: 'divpusher',
+    url: 'https://divpusher.com'
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+
+})
+
+
+
 afterAll(() => {
   mongoose.connection.close()
 })
