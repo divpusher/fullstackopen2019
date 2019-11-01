@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Login from './components/Login'
 import Blog from './components/Blog'
+import AddNewBlog from './components/AddNewBlog'
 import loginService from './services/login' 
 import blogService from './services/blogs' 
 
@@ -12,6 +13,7 @@ function App() {
   const [password, setPassword] = useState('') 
   const [user, setUser] = useState(null)
   const [blogs, setBlogs] = useState([])
+  const [newBlog, setNewBlog] = useState({ title: '', author: '', url: '' })
 
 
 
@@ -66,6 +68,23 @@ function App() {
 
 
 
+  const handleAddNewBlog = async (event) => {
+    event.preventDefault()
+
+    blogService.setToken(user.token)
+    const returnedBlog = await blogService.create(newBlog)
+
+    setBlogs(blogs.concat(returnedBlog))      
+    setNewBlog({
+      title: '',
+      author: '',
+      url: ''
+    })
+  }
+
+
+
+  // render
   if (user === null){
     return (
       <>
@@ -87,6 +106,15 @@ function App() {
       <h2>blogs</h2>
       
       <p>{user.name} logged in <button onClick={handleLogout}>logout</button></p>
+
+      <h2>create new</h2>
+      <AddNewBlog 
+        handleAddNewBlog={handleAddNewBlog} 
+        newBlog={newBlog}
+        setNewBlog={setNewBlog}
+      />
+
+      <p>&nbsp;</p>
 
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
