@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Login from './components/Login'
 import Blog from './components/Blog'
+import Notification from './components/Notification'
 import AddNewBlog from './components/AddNewBlog'
 import loginService from './services/login' 
 import blogService from './services/blogs' 
@@ -8,7 +9,7 @@ import blogService from './services/blogs'
 
 
 function App() {
-  // const [errorMessage, setErrorMessage] = useState(null)
+  const [message, setMessage] = useState(null)
   const [username, setUsername] = useState('')   
   const [password, setPassword] = useState('') 
   const [user, setUser] = useState(null)
@@ -46,6 +47,7 @@ function App() {
     event.preventDefault()    
 
     try {
+
       const user = await loginService.login({
         username, password,
       })
@@ -62,7 +64,16 @@ function App() {
       setBlogs(blogsAll)
 
     } catch (exception) {
-      console.log('error')
+
+      setMessage({
+        text: `wrong username or password`,
+        type: 'error'
+      })
+
+      setTimeout(() => {          
+        setMessage(null)
+      }, 3000)
+
     }
   }
 
@@ -71,15 +82,39 @@ function App() {
   const handleAddNewBlog = async (event) => {
     event.preventDefault()
 
-    blogService.setToken(user.token)
-    const returnedBlog = await blogService.create(newBlog)
+    try{
 
-    setBlogs(blogs.concat(returnedBlog))      
-    setNewBlog({
-      title: '',
-      author: '',
-      url: ''
-    })
+      blogService.setToken(user.token)
+      const returnedBlog = await blogService.create(newBlog)
+
+      setBlogs(blogs.concat(returnedBlog))      
+      setNewBlog({
+        title: '',
+        author: '',
+        url: ''
+      })
+
+      setMessage({
+        text: `a new blog ${returnedBlog.title} by ${returnedBlog.author} added`,
+        type: 'success'
+      })
+
+      setTimeout(() => {          
+        setMessage({ text: '', type: '' })
+      }, 3000)
+
+    } catch (exception) {
+
+      setMessage({
+        text: `Couldn't add new blog`,
+        type: 'error'
+      })
+
+      setTimeout(() => {          
+        setMessage(null)
+      }, 3000)
+
+    }
   }
 
 
@@ -88,7 +123,8 @@ function App() {
   if (user === null){
     return (
       <>
-        <h2>log in to application</h2>        
+        <h2>log in to application</h2>     
+        <Notification message={message} />   
         <Login 
         handleLogin={handleLogin}
         username={username} 
@@ -104,6 +140,8 @@ function App() {
   return (     
     <>
       <h2>blogs</h2>
+
+      <Notification message={message} />
       
       <p>{user.name} logged in <button onClick={handleLogout}>logout</button></p>
 
