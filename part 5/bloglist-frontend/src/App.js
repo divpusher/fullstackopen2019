@@ -4,15 +4,15 @@ import Blog from './components/Blog'
 import Notification from './components/Notification'
 import AddNewBlog from './components/AddNewBlog'
 import Togglable from './components/Togglable'
-import loginService from './services/login' 
-import blogService from './services/blogs' 
+import loginService from './services/login'
+import blogService from './services/blogs'
 
 
 
 function App() {
   const [message, setMessage] = useState(null)
-  const [username, setUsername] = useState('')   
-  const [password, setPassword] = useState('') 
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [blogs, setBlogs] = useState([])
   const [newBlog, setNewBlog] = useState({ title: '', author: '', url: '' })
@@ -20,22 +20,22 @@ function App() {
 
 
   useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedBloglistUser')    
-    if (loggedUserJSON) {      
-      const user = JSON.parse(loggedUserJSON) 
+    const loggedUserJSON = window.localStorage.getItem('loggedBloglistUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
 
-      setUser(user)  
+      setUser(user)
 
       ;(async () => {
         const blogsAll = await blogService.getAll()
         setBlogs(blogsAll)
-      })() 
+      })()
     }
   }, [])
 
 
 
-  const handleLogout = (event) => {   
+  const handleLogout = (event) => {
     event.preventDefault()
     setUser(null)
     setBlogs([])
@@ -44,8 +44,8 @@ function App() {
 
 
 
-  const handleLogin = async (event) => {    
-    event.preventDefault()    
+  const handleLogin = async (event) => {
+    event.preventDefault()
 
     try {
 
@@ -53,9 +53,9 @@ function App() {
         username, password,
       })
 
-      window.localStorage.setItem(        
-        'loggedBloglistUser', JSON.stringify(user)      
-      ) 
+      window.localStorage.setItem(
+        'loggedBloglistUser', JSON.stringify(user)
+      )
 
       setUser(user)
       setUsername('')
@@ -71,7 +71,7 @@ function App() {
         type: 'error'
       })
 
-      setTimeout(() => {          
+      setTimeout(() => {
         setMessage(null)
       }, 3000)
 
@@ -88,7 +88,7 @@ function App() {
       blogService.setToken(user.token)
       const returnedBlog = await blogService.create(newBlog)
 
-      setBlogs(blogs.concat(returnedBlog))      
+      setBlogs(blogs.concat(returnedBlog))
       setNewBlog({
         title: '',
         author: '',
@@ -100,7 +100,7 @@ function App() {
         type: 'success'
       })
 
-      setTimeout(() => {          
+      setTimeout(() => {
         setMessage({ text: '', type: '' })
       }, 3000)
 
@@ -111,7 +111,7 @@ function App() {
         type: 'error'
       })
 
-      setTimeout(() => {          
+      setTimeout(() => {
         setMessage(null)
       }, 3000)
 
@@ -131,11 +131,11 @@ function App() {
 
       blogService.setToken(user.token)
       await blogService.update(blog.id, updatedBlog)
-      
+
       setBlogs(
         blogs.map(
           b => {
-            if (b.id === blog.id){              
+            if (b.id === blog.id){
               b.likes += 1
               return b
             }else {
@@ -151,7 +151,7 @@ function App() {
         type: 'error'
       })
 
-      setTimeout(() => {          
+      setTimeout(() => {
         setMessage(null)
       }, 3000)
     }
@@ -159,7 +159,7 @@ function App() {
   }
 
 
-  
+
   const handleRemoveBlog = async (blog) => {
 
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
@@ -175,7 +175,7 @@ function App() {
           type: 'error'
         })
 
-        setTimeout(() => {          
+        setTimeout(() => {
           setMessage(null)
         }, 3000)
       }
@@ -184,15 +184,15 @@ function App() {
 
 
 
-  const displayBlogs = () => {       
+  const displayBlogs = () => {
     const sortedBlogs = new Array(...blogs)
     sortedBlogs.sort((a, b) => b.likes - a.likes)
     return sortedBlogs.map(blog =>
-      <Blog 
-        handleLikeBlog={handleLikeBlog} 
-        handleRemoveBlog={handleRemoveBlog} 
-        key={blog.id} 
-        blog={blog} 
+      <Blog
+        handleLikeBlog={handleLikeBlog}
+        handleRemoveBlog={handleRemoveBlog}
+        key={blog.id}
+        blog={blog}
         currentUsername={user.username}
       />
     )
@@ -204,32 +204,32 @@ function App() {
   if (user === null){
     return (
       <>
-        <h2>log in to application</h2>     
-        <Notification message={message} />   
-        <Login 
+        <h2>log in to application</h2>
+        <Notification message={message} />
+        <Login
         handleLogin={handleLogin}
-        username={username} 
-        password={password} 
+        username={username}
+        password={password}
         setUsername={setUsername}
         setPassword={setPassword}
-        /> 
+        />
       </>
     )
   }
-      
 
-  return (     
+
+  return (
     <>
       <h2>blogs</h2>
 
       <Notification message={message} />
-      
+
       <p>{user.name} logged in <button onClick={handleLogout}>logout</button></p>
 
       <h2>create new</h2>
       <Togglable buttonLabel="new note">
-        <AddNewBlog 
-          handleAddNewBlog={handleAddNewBlog} 
+        <AddNewBlog
+          handleAddNewBlog={handleAddNewBlog}
           newBlog={newBlog}
           setNewBlog={setNewBlog}
         />
