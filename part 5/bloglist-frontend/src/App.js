@@ -160,6 +160,16 @@ function App() {
 
 
 
+  const displayBlogs = () => {        
+    const sortedBlogs = new Array(...blogs)
+    sortedBlogs.sort((a, b) => b.likes - a.likes)
+    return sortedBlogs.map(blog =>
+      <Blog handleLikeBlog={handleLikeBlog} key={blog.id} blog={blog} />
+    )
+  }
+
+
+
   // render
   if (user === null){
     return (
@@ -197,9 +207,7 @@ function App() {
 
       <p>&nbsp;</p>
 
-      {blogs.map(blog =>
-        <Blog handleLikeBlog={handleLikeBlog} key={blog.id} blog={blog} />
-      )}
+      {displayBlogs()}
     </>
   )
 }
