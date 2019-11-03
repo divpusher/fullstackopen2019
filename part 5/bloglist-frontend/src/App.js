@@ -159,12 +159,41 @@ function App() {
   }
 
 
+  
+  const handleRemoveBlog = async (blog) => {
+
+    if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
+      try {
+
+        blogService.setToken(user.token)
+        await blogService.remove(blog.id)
+        setBlogs(blogs.filter(b => b.id !== blog.id && b))
+
+      } catch (exception) {
+        setMessage({
+          text: `Couldn't remove this blog!`,
+          type: 'error'
+        })
+
+        setTimeout(() => {          
+          setMessage(null)
+        }, 3000)
+      }
+    }
+  }
+
+
 
   const displayBlogs = () => {        
     const sortedBlogs = new Array(...blogs)
     sortedBlogs.sort((a, b) => b.likes - a.likes)
     return sortedBlogs.map(blog =>
-      <Blog handleLikeBlog={handleLikeBlog} key={blog.id} blog={blog} />
+      <Blog 
+        handleLikeBlog={handleLikeBlog} 
+        handleRemoveBlog={handleRemoveBlog} 
+        key={blog.id} 
+        blog={blog} 
+      />
     )
   }
 
