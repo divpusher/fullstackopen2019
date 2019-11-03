@@ -120,6 +120,46 @@ function App() {
 
 
 
+  const handleLikeBlog = async (blog) => {
+
+    try{
+
+      const updatedBlog = {
+        ...blog,
+        likes: blog.likes + 1
+      }
+
+      blogService.setToken(user.token)
+      await blogService.update(blog.id, updatedBlog)
+      
+      setBlogs(
+        blogs.map(
+          b => {
+            if (b.id === blog.id){              
+              b.likes += 1
+              return b
+            }else {
+              return b
+            }
+          }
+        )
+      )
+
+    } catch (exception) {
+      setMessage({
+        text: `Couldn't update this blogpost!`,
+        type: 'error'
+      })
+
+      setTimeout(() => {          
+        setMessage(null)
+      }, 3000)
+    }
+
+  }
+
+
+
   // render
   if (user === null){
     return (
@@ -158,7 +198,7 @@ function App() {
       <p>&nbsp;</p>
 
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog handleLikeBlog={handleLikeBlog} key={blog.id} blog={blog} />
       )}
     </>
   )
