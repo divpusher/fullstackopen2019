@@ -184,7 +184,7 @@ function App() {
 
 
 
-  const displayBlogs = () => {        
+  const displayBlogs = () => {       
     const sortedBlogs = new Array(...blogs)
     sortedBlogs.sort((a, b) => b.likes - a.likes)
     return sortedBlogs.map(blog =>
@@ -193,6 +193,7 @@ function App() {
         handleRemoveBlog={handleRemoveBlog} 
         key={blog.id} 
         blog={blog} 
+        currentUsername={user.username}
       />
     )
   }

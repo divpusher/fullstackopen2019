@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 
-const Blog = ({ handleLikeBlog, handleRemoveBlog, blog }) => {
+const Blog = ({ handleLikeBlog, handleRemoveBlog, blog, currentUsername }) => {
   
   const [visible, setVisible] = useState(false)
 
@@ -21,8 +21,6 @@ const Blog = ({ handleLikeBlog, handleRemoveBlog, blog }) => {
   let visibility = { display: visible ? '' : 'none' }
 
 
-  
-
   return (
     <div style={blogStyle}>
       <div onClick={() => toggleVisibility()}>{blog.title} {blog.author}</div>
@@ -30,7 +28,11 @@ const Blog = ({ handleLikeBlog, handleRemoveBlog, blog }) => {
       <div style={visibility}>
         <div>{blog.likes} likes <button onClick={() => handleLikeBlog(blog)}>like</button></div>
         <div>added by {blog.user.name}</div>
-        <button onClick={() => handleRemoveBlog(blog)}>remove</button>
+        {
+          currentUsername === blog.user.username ?
+          <button onClick={() => handleRemoveBlog(blog)}>remove</button>
+          : null
+        }
       </div>
     </div>
   )
