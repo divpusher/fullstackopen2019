@@ -3,6 +3,7 @@ import Login from './components/Login'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
 import AddNewBlog from './components/AddNewBlog'
+import Togglable from './components/Togglable'
 import loginService from './services/login' 
 import blogService from './services/blogs' 
 
@@ -146,11 +147,13 @@ function App() {
       <p>{user.name} logged in <button onClick={handleLogout}>logout</button></p>
 
       <h2>create new</h2>
-      <AddNewBlog 
-        handleAddNewBlog={handleAddNewBlog} 
-        newBlog={newBlog}
-        setNewBlog={setNewBlog}
-      />
+      <Togglable buttonLabel="new note">
+        <AddNewBlog 
+          handleAddNewBlog={handleAddNewBlog} 
+          newBlog={newBlog}
+          setNewBlog={setNewBlog}
+        />
+      </Togglable>
 
       <p>&nbsp;</p>
 
