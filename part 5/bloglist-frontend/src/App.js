@@ -67,7 +67,7 @@ function App() {
     } catch (exception) {
 
       setMessage({
-        text: `wrong username or password`,
+        text: 'wrong username or password',
         type: 'error'
       })
 
@@ -107,7 +107,7 @@ function App() {
     } catch (exception) {
 
       setMessage({
-        text: `Couldn't add new blog`,
+        text: 'Couldn\'t add new blog',
         type: 'error'
       })
 
@@ -147,7 +147,7 @@ function App() {
 
     } catch (exception) {
       setMessage({
-        text: `Couldn't update this blogpost!`,
+        text: 'Couldn\'t update this blogpost!',
         type: 'error'
       })
 
@@ -171,7 +171,7 @@ function App() {
 
       } catch (exception) {
         setMessage({
-          text: `Couldn't remove this blog!`,
+          text: 'Couldn\'t remove this blog!',
           type: 'error'
         })
 
@@ -207,11 +207,11 @@ function App() {
         <h2>log in to application</h2>
         <Notification message={message} />
         <Login
-        handleLogin={handleLogin}
-        username={username}
-        password={password}
-        setUsername={setUsername}
-        setPassword={setPassword}
+          handleLogin={handleLogin}
+          username={username}
+          password={password}
+          setUsername={setUsername}
+          setPassword={setPassword}
         />
       </>
     )
@@ -243,4 +243,4 @@ function App() {
 }
 
 
-export default App;
+export default App
