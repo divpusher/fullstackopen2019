@@ -32,3 +32,27 @@ test('renders content', () => {
   )
 
 })
+
+
+
+test('2 button clicks', () => {
+
+  const blog = {
+    title: 'My blog title',
+    author: 'Blog author',
+    likes: 9
+  }
+
+  const mockHandler = jest.fn()
+
+  const component = render(
+    <SimpleBlog blog={blog} onClick={mockHandler} />
+  )
+
+  const button = component.getByText('like')
+  fireEvent.click(button)
+  fireEvent.click(button)
+
+  expect(mockHandler.mock.calls.length).toBe(2)
+
+})
