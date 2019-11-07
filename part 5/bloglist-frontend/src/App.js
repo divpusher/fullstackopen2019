@@ -16,7 +16,10 @@ function App() {
   const password = useField('password')
   const [user, setUser] = useState(null)
   const [blogs, setBlogs] = useState([])
-  const [newBlog, setNewBlog] = useState({ title: '', author: '', url: '' })
+  // const [newBlog, setNewBlog] = useState({ title: '', author: '', url: '' })
+  const newBlogTitle = useField('text')
+  const newBlogAuthor = useField('text')
+  const newBlogUrl = useField('text')
 
 
 
@@ -88,14 +91,17 @@ function App() {
     try{
 
       blogService.setToken(user.token)
-      const returnedBlog = await blogService.create(newBlog)
+      const returnedBlog = await blogService.create({
+        title: newBlogTitle.attributes.value,
+        author: newBlogAuthor.attributes.value,
+        url: newBlogUrl.attributes.value
+      })
 
       setBlogs(blogs.concat(returnedBlog))
-      setNewBlog({
-        title: '',
-        author: '',
-        url: ''
-      })
+
+      newBlogTitle.reset()
+      newBlogAuthor.reset()
+      newBlogUrl.reset()
 
       setMessage({
         text: `a new blog ${returnedBlog.title} by ${returnedBlog.author} added`,
@@ -230,8 +236,9 @@ function App() {
       <Togglable buttonLabel="new note">
         <AddNewBlog
           handleAddNewBlog={handleAddNewBlog}
-          newBlog={newBlog}
-          setNewBlog={setNewBlog}
+          newBlogTitle={newBlogTitle}
+          newBlogAuthor={newBlogAuthor}
+          newBlogUrl={newBlogUrl}
         />
       </Togglable>
 
