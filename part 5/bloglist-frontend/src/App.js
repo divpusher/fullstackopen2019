@@ -6,13 +6,14 @@ import AddNewBlog from './components/AddNewBlog'
 import Togglable from './components/Togglable'
 import loginService from './services/login'
 import blogService from './services/blogs'
+import { useField } from './hooks'
 
 
 
 function App() {
   const [message, setMessage] = useState(null)
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const username = useField('text')
+  const password = useField('password')
   const [user, setUser] = useState(null)
   const [blogs, setBlogs] = useState([])
   const [newBlog, setNewBlog] = useState({ title: '', author: '', url: '' })
@@ -50,7 +51,8 @@ function App() {
     try {
 
       const user = await loginService.login({
-        username, password,
+        username: username.attributes.value,
+        password: password.attributes.value
       })
 
       window.localStorage.setItem(
@@ -58,8 +60,8 @@ function App() {
       )
 
       setUser(user)
-      setUsername('')
-      setPassword('')
+      username.reset()
+      password.reset()
 
       const blogsAll = await blogService.getAll()
       setBlogs(blogsAll)
@@ -210,8 +212,6 @@ function App() {
           handleLogin={handleLogin}
           username={username}
           password={password}
-          setUsername={setUsername}
-          setPassword={setPassword}
         />
       </>
     )
