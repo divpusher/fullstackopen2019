@@ -6,7 +6,7 @@ import AddNewBlog from './components/AddNewBlog'
 import Togglable from './components/Togglable'
 import loginService from './services/login'
 import blogService from './services/blogs'
-import { useField } from './hooks'
+import { useField, useResource } from './hooks'
 
 
 
@@ -16,10 +16,10 @@ function App() {
   const password = useField('password')
   const [user, setUser] = useState(null)
   const [blogs, setBlogs] = useState([])
-  // const [newBlog, setNewBlog] = useState({ title: '', author: '', url: '' })
   const newBlogTitle = useField('text')
   const newBlogAuthor = useField('text')
   const newBlogUrl = useField('text')
+  const blogResource = useResource('/api/blogs')
 
 
 
@@ -31,10 +31,11 @@ function App() {
       setUser(user)
 
       ;(async () => {
-        const blogsAll = await blogService.getAll()
+        const blogsAll = await blogResource.getAll()
         setBlogs(blogsAll)
       })()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
 
@@ -66,7 +67,7 @@ function App() {
       username.reset()
       password.reset()
 
-      const blogsAll = await blogService.getAll()
+      const blogsAll = await blogResource.getAll()
       setBlogs(blogsAll)
 
     } catch (exception) {
@@ -90,8 +91,8 @@ function App() {
 
     try{
 
-      blogService.setToken(user.token)
-      const returnedBlog = await blogService.create({
+      blogResource.setToken(user.token)
+      const returnedBlog = await blogResource.create({
         title: newBlogTitle.attributes.value,
         author: newBlogAuthor.attributes.value,
         url: newBlogUrl.attributes.value

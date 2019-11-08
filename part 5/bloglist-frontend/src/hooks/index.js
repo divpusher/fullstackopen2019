@@ -1,5 +1,5 @@
 import { useState } from 'react'
-
+import axios from 'axios'
 
 
 export const useField = (type) => {
@@ -21,6 +21,47 @@ export const useField = (type) => {
         onChange
       },
     reset
+  }
+}
+
+
+
+export const useResource = (baseUrl) => {
+
+  let token = null
+
+
+  const setToken = newToken => {
+    token = `bearer ${newToken}`
+  }
+
+
+
+  const getAll = () => {
+    const request = axios.get(baseUrl)
+    return request.then(response => response.data)
+  }
+
+
+
+  const create = async newObject => {
+    const config = {
+      headers: {
+        Authorization: token
+      },
+    }
+
+    const response = await axios
+      .post(baseUrl, newObject, config)
+    return response.data
+  }
+
+
+
+  return {
+    getAll,
+    create,
+    setToken
   }
 }
 
