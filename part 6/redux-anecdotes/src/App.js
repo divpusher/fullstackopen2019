@@ -1,36 +1,13 @@
 import React from 'react'
 import _ from 'lodash'
+import { vote, addAnecdote } from './reducers/anecdoteReducer'
+
 
 
 const App = (props) => {
 
   const anecdotes = props.store.getState()
   const orderedAnecdotes = _.orderBy(anecdotes, ['votes'], ['desc'])
-
-
-  const vote = (id) => {
-    props.store.dispatch({
-      type: 'VOTE',
-      data: {
-        id: id
-      }
-    })
-  }
-
-
-  const addAnecdote = (event) => {
-    event.preventDefault()
-
-    let newId = (100000 * Math.random()).toFixed(0)
-    props.store.dispatch({
-      type: 'NEW_ANECDOTE',
-      data: {
-        content: event.target.anecdote.value,
-        id: newId,
-        votes: 0
-      }
-    })
-  }
 
 
   return (
@@ -43,12 +20,16 @@ const App = (props) => {
           </div>
           <div>
             has {anecdote.votes}
-            <button onClick={() => vote(anecdote.id)}>vote</button>
+            <button onClick={() =>
+              props.store.dispatch(vote(anecdote.id))
+            }>vote</button>
           </div>
         </div>
       )}
       <h2>create new</h2>
-      <form onSubmit={addAnecdote}>
+      <form onSubmit={(event) =>
+          props.store.dispatch(addAnecdote(event))
+        }>
         <div><input name="anecdote" /></div>
         <button>create</button>
       </form>
