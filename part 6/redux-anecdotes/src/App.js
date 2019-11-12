@@ -1,6 +1,7 @@
 import React from 'react'
 import _ from 'lodash'
-import { vote, addAnecdote } from './reducers/anecdoteReducer'
+import AnecdoteForm from './components/AnecdoteForm'
+import { vote } from './reducers/anecdoteReducer'
 
 
 
@@ -27,12 +28,7 @@ const App = (props) => {
         </div>
       )}
       <h2>create new</h2>
-      <form onSubmit={(event) =>
-          props.store.dispatch(addAnecdote(event))
-        }>
-        <div><input name="anecdote" /></div>
-        <button>create</button>
-      </form>
+      <AnecdoteForm store={props.store} />
     </div>
   )
 }
