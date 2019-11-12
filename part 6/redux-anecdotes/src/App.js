@@ -1,9 +1,12 @@
-import React from 'react';
+import React from 'react'
+import _ from 'lodash'
 
 
 const App = (props) => {
 
   const anecdotes = props.store.getState()
+  const orderedAnecdotes = _.orderBy(anecdotes, ['votes'], ['desc'])
+
 
   const vote = (id) => {
     props.store.dispatch({
@@ -33,7 +36,7 @@ const App = (props) => {
   return (
     <div>
       <h2>Anecdotes</h2>
-      {anecdotes.map(anecdote =>
+      {orderedAnecdotes.map(anecdote =>
         <div key={anecdote.id}>
           <div>
             {anecdote.content}
