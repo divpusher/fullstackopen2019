@@ -5,7 +5,7 @@ import { vote } from '../reducers/anecdoteReducer'
 
 const AnecdoteList = (props) => {
 
-  const anecdotes = props.store.getState()
+  const anecdotes = props.store.getState().anecdotes
   const orderedAnecdotes = _.orderBy(anecdotes, ['votes'], ['desc'])
 
   return (
