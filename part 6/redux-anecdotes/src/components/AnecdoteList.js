@@ -6,8 +6,18 @@ import { addNotification, clearNotification } from '../reducers/notificationRedu
 
 const AnecdoteList = (props) => {
 
-  const anecdotes = props.store.getState().anecdotes
-  const orderedAnecdotes = _.orderBy(anecdotes, ['votes'], ['desc'])
+  const { anecdotes, filter } = props.store.getState()
+
+  let filteredAnecdotes
+  if (filter){
+    filteredAnecdotes = anecdotes.filter(a => a.content.toLowerCase().indexOf(filter.toLowerCase()) !== -1)
+  }else{
+    filteredAnecdotes = anecdotes
+  }
+
+  // console.log(filteredAnecdotes)
+
+  const orderedAnecdotes = _.orderBy(filteredAnecdotes, ['votes'], ['desc'])
 
 
   const handleVoteButton = (id, content) => {
