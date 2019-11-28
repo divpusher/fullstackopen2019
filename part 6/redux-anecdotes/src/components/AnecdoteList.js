@@ -7,18 +7,6 @@ import { addNotification, clearNotification } from '../reducers/notificationRedu
 
 const AnecdoteList = (props) => {
 
-
-  let filteredAnecdotes
-  if (props.filter){
-    filteredAnecdotes = props.anecdotes.filter(a => a.content.toLowerCase().indexOf(props.filter.toLowerCase()) !== -1)
-  }else{
-    filteredAnecdotes = props.anecdotes
-  }
-
-
-  const orderedAnecdotes = _.orderBy(filteredAnecdotes, ['votes'], ['desc'])
-
-
   const handleVoteButton = (id, content) => {
     props.vote(id)
     props.addNotification(`You voted '${content}'`)
@@ -32,7 +20,7 @@ const AnecdoteList = (props) => {
   return (
     <>
       <div>&nbsp;</div>
-      {orderedAnecdotes.map(anecdote =>
+      {props.visibleAnecdotes.map(anecdote =>
         <div key={anecdote.id}>
           <div>
             {anecdote.content}
@@ -51,11 +39,24 @@ const AnecdoteList = (props) => {
 }
 
 
+
+const anecdotesToShow = ({ anecdotes, filter }) => {
+  let filteredAnecdotes
+  if (filter){
+    filteredAnecdotes = anecdotes.filter(a => a.content.toLowerCase().indexOf(filter.toLowerCase()) !== -1)
+  }else{
+    filteredAnecdotes = anecdotes
+  }
+
+  return _.orderBy(filteredAnecdotes, ['votes'], ['desc'])
+}
+
+
+
 const mapStateToProps = (state) => {
-  // console.log(state)
+  console.log(state)
   return {
-    anecdotes: state.anecdotes,
-    filter: state.filter
+    visibleAnecdotes: anecdotesToShow(state)
   }
 }
 
