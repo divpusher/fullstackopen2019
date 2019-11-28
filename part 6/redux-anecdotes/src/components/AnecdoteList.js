@@ -1,21 +1,20 @@
 import React from 'react'
 import _ from 'lodash'
+import { connect } from 'react-redux'
 import { vote } from '../reducers/anecdoteReducer'
 import { addNotification, clearNotification } from '../reducers/notificationReducer'
 
 
 const AnecdoteList = (props) => {
 
-  const { anecdotes, filter } = props.store.getState()
 
   let filteredAnecdotes
-  if (filter){
-    filteredAnecdotes = anecdotes.filter(a => a.content.toLowerCase().indexOf(filter.toLowerCase()) !== -1)
+  if (props.filter){
+    filteredAnecdotes = props.anecdotes.filter(a => a.content.toLowerCase().indexOf(props.filter.toLowerCase()) !== -1)
   }else{
-    filteredAnecdotes = anecdotes
+    filteredAnecdotes = props.anecdotes
   }
 
-  // console.log(filteredAnecdotes)
 
   const orderedAnecdotes = _.orderBy(filteredAnecdotes, ['votes'], ['desc'])
 
@@ -54,4 +53,18 @@ const AnecdoteList = (props) => {
 }
 
 
-export default AnecdoteList
+const mapStateToProps = (state) => {
+  // sometimes it is useful to console log from mapStateToProps
+  console.log(state)
+  return {
+    anecdotes: state.anecdotes,
+    filter: state.filter
+  }
+}
+
+
+const ConnectedAnecdoteList = connect(
+  mapStateToProps
+)(AnecdoteList)
+
+export default ConnectedAnecdoteList
