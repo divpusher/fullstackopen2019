@@ -1,5 +1,3 @@
-const getId = () => (100000 * Math.random()).toFixed(0)
-
 
 export const vote = (id) => {
   return {
@@ -11,19 +9,10 @@ export const vote = (id) => {
 }
 
 
-export const addAnecdote = (event) => {
-  event.preventDefault()
-
-  const content = event.target.anecdote.value
-  event.target.anecdote.value = ''
-
+export const addAnecdote = (data) => {
   return {
     type: 'NEW_ANECDOTE',
-    data: {
-      content: content,
-      id: getId(),
-      votes: 0
-    }
+    data
   }
 }
 

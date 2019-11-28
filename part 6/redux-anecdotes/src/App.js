@@ -13,7 +13,7 @@ const App = (props) => {
   useEffect(() => {
     anecdoteService
       .getAll().then(notes => props.initializeAnecdotes(notes))
-    },[])
+    },[props])
 
 
   return (
