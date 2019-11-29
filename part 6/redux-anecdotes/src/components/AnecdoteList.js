@@ -2,7 +2,7 @@ import React from 'react'
 import _ from 'lodash'
 import { connect } from 'react-redux'
 import { vote } from '../reducers/anecdoteReducer'
-import { addNotification, clearNotification } from '../reducers/notificationReducer'
+import { setNotification } from '../reducers/notificationReducer'
 
 
 const AnecdoteList = (props) => {
@@ -15,11 +15,8 @@ const AnecdoteList = (props) => {
     }
     props.vote(id, changedAnecdote)
 
+    props.setNotification(`You voted '${anecdoteToChange.content}'`, 2000)
 
-    props.addNotification(`You voted '${content}'`)
-    setTimeout(() => {
-      props.clearNotification()
-    }, 5000)
   }
 
 
@@ -35,7 +32,7 @@ const AnecdoteList = (props) => {
             has {anecdote.votes}
             <button
               onClick={() =>
-                handleVoteButton(anecdote.id, anecdote.content)
+                handleVoteButton(anecdote.id)
               }>vote</button>
           </div>
         </div>
@@ -71,8 +68,7 @@ const ConnectedAnecdoteList = connect(
   mapStateToProps,
   {
     vote,
-    addNotification,
-    clearNotification
+    setNotification
   }
 )(AnecdoteList)
 
