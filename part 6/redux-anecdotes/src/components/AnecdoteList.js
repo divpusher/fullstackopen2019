@@ -8,9 +8,15 @@ import { addNotification, clearNotification } from '../reducers/notificationRedu
 const AnecdoteList = (props) => {
 
   const handleVoteButton = (id, content) => {
-    props.vote(id)
-    props.addNotification(`You voted '${content}'`)
+    const anecdoteToChange = props.visibleAnecdotes.find(a => a.id === id)
+    const changedAnecdote = {
+      ...anecdoteToChange,
+      votes: anecdoteToChange.votes + 1
+    }
+    props.vote(id, changedAnecdote)
 
+
+    props.addNotification(`You voted '${content}'`)
     setTimeout(() => {
       props.clearNotification()
     }, 5000)
@@ -54,7 +60,7 @@ const anecdotesToShow = ({ anecdotes, filter }) => {
 
 
 const mapStateToProps = (state) => {
-  console.log(state)
+  // console.log(state)
   return {
     visibleAnecdotes: anecdotesToShow(state)
   }

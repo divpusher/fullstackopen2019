@@ -6,7 +6,7 @@ import { addNotification, clearNotification } from '../reducers/notificationRedu
 
 const AnecdoteForm = (props) => {
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault()
 
     const content = event.target.anecdote.value
