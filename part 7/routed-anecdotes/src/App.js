@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import {
   BrowserRouter as Router,
-  Route, Link
+  Route, Link, withRouter
 } from 'react-router-dom'
 
 
@@ -71,7 +71,21 @@ const Footer = () => (
 
 
 
-const CreateNew = (props) => {
+const Notification = ({ notification }) => {
+
+  if (!notification){
+    return null
+  }
+
+  return (
+    <div>{notification}</div>
+  )
+
+}
+
+
+
+let CreateNew = (props) => {
   const [content, setContent] = useState('')
   const [author, setAuthor] = useState('')
   const [info, setInfo] = useState('')
@@ -85,6 +99,15 @@ const CreateNew = (props) => {
       info,
       votes: 0
     })
+
+    props.history.push('/')
+
+    props.setNotification(`A new anecdote "${content}" created!`)
+
+    setTimeout(() => {
+      props.setNotification('')
+    }, 10000)
+
   }
 
   return (
@@ -109,6 +132,8 @@ const CreateNew = (props) => {
   )
 
 }
+CreateNew = withRouter(CreateNew)
+
 
 
 
@@ -162,14 +187,18 @@ const App = () => {
       <Router>
         <h1>Software anecdotes</h1>
         <Menu />
-        <Route exact path="/" render={
-          () => <AnecdoteList anecdotes={anecdotes} />
+        <Notification notification={notification} />
+        <Route exact path="/" render={() =>
+          <AnecdoteList anecdotes={anecdotes} />
         } />
-        <Route exact path="/about" render={
-          () => <About />
+        <Route exact path="/about" render={() =>
+          <About />
         } />
-        <Route exact path="/create" render={
-          () => <CreateNew addNew={addNew} />
+        <Route exact path="/create" render={() =>
+          <CreateNew
+            addNew={addNew}
+            setNotification={setNotification}
+            />
         } />
         <Route exact path="/anecdotes/:id" render={
           ({ match }) =>
