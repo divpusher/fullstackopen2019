@@ -25,6 +25,8 @@ const Login = (props) => {
 
       props.initializeBlogs()
 
+      // props.initUserList()
+
     } catch (exception) {
 
       props.setNotification('wrong username or password', 'error')

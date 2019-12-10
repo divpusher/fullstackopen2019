@@ -1,12 +1,20 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
+import {
+  BrowserRouter as Router,
+  Route
+} from 'react-router-dom'
+
 import Login from './components/Login'
 import BlogList from './components/BlogList'
 import Notification from './components/Notification'
 import AddNewBlog from './components/AddNewBlog'
 import Togglable from './components/Togglable'
+import Users from './components/Users'
+
 import { initializeBlogs, clearBlogs } from './reducers/blogReducer'
 import { initUser, exitUser } from './reducers/userReducer'
+import { initUserList } from './reducers/userListReducer'
 
 
 
@@ -20,6 +28,8 @@ const App = (props) => {
       props.initUser(user)
 
       props.initializeBlogs()
+
+      props.initUserList('/api/users')
     }
     console.log('first render')
   }, [props])
@@ -49,20 +59,31 @@ const App = (props) => {
 
   return (
     <>
+    <Router>
       <h2>blogs</h2>
 
       <Notification />
 
       <p>{props.user.name} logged in <button onClick={handleLogout}>logout</button></p>
 
-      <h2>create new</h2>
-      <Togglable buttonLabel="new note">
-        <AddNewBlog />
-      </Togglable>
+      <Route exact path="/users" render={() =>
+        <Users />
+      } />
 
-      <p>&nbsp;</p>
+      <Route exact path="/" render={() =>
+        <>
+          <h2>create new</h2>
+          <Togglable buttonLabel="new note">
+            <AddNewBlog />
+          </Togglable>
 
-      <BlogList />
+          <p>&nbsp;</p>
+
+          <BlogList />
+        </>
+      } />
+
+    </Router>
     </>
   )
 }
@@ -83,6 +104,7 @@ export default connect(
     initializeBlogs,
     clearBlogs,
     initUser,
-    exitUser
+    exitUser,
+    initUserList
   }
 )(App)
