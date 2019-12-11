@@ -1,20 +1,29 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import Blog from './Blog'
+import { Link } from 'react-router-dom'
 
 
+const BlogList = (props) => {
 
-const BlogList = (props) => (
-  <>
-    {props.visibleBlogs.map(blog =>
-      <Blog
-        key={blog.id}
-        blog={blog}
-      />
-    )}
-  </>
-)
+  const blogStyle = {
+    paddingTop: 10,
+    paddingLeft: 2,
+    border: 'solid',
+    borderWidth: 1,
+    marginBottom: 5
+  }
 
+
+  return (
+    <>
+      {props.visibleBlogs.map(blog =>
+        <div key={blog.id} style={blogStyle}>
+          <Link to={`/blogs/${blog.id}`}>{blog.title} {blog.author}</Link>
+        </div>
+      )}
+    </>
+  )
+}
 
 
 const blogsToShow = ({ blogs }) => {

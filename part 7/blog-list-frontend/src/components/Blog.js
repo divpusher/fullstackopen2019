@@ -1,78 +1,37 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
-import { like, removeBlog } from '../reducers/blogReducer'
-import { setNotification } from '../reducers/notificationReducer'
+import { like } from '../reducers/blogReducer'
 
 
 const Blog = (props) => {
 
-  const [visible, setVisible] = useState(false)
-
-  const toggleVisibility = () => {
-    setVisible(!visible)
+  if ( props.blog === undefined) {
+    return null
   }
-
-  let visibility = { display: visible ? '' : 'none' }
-
-
-
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5
-  }
-
-
-  const handleRemoveBlog = async (blog) => {
-    if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
-      try {
-        props.removeBlog(blog.id)
-      } catch (exception) {
-        setNotification(`Couldn't remove this blog!`, 'error')
-      }
-    }
-  }
-
-
-
-
 
   return (
-    <div style={blogStyle}>
-      <div onClick={() => toggleVisibility()} className="title">{props.blog.title} {props.blog.author}</div>
-
-      <div style={visibility} className="details">
-        <div>{props.blog.likes} likes <button onClick={() => props.like(props.blog.id, props.blog)}>like</button></div>
-        <div>added by {props.blog.user.name}</div>
-        {
-          props.user.username === props.blog.user.username ?
-            <button onClick={() => handleRemoveBlog(props.blog)}>remove</button>
-            : null
-        }
-      </div>
-    </div>
+    <>
+      <h2>{props.blog.title} by {props.blog.author}</h2>
+      <div><a href={props.blog.url} target="_blank" rel="noopener noreferrer">{props.blog.url}</a></div>
+      <div>{props.blog.likes} likes <button onClick={() => props.like(props.blog.id, props.blog)}>like</button></div>
+      <div>added by {props.blog.user.name}</div>
+    </>
   )
 
 }
 
 
-
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
-    user: state.user
+    blog: state.blogs.find(blog => blog.id === ownProps.id)
   }
 }
-
 
 
 const ConnectedBlog = connect(
   mapStateToProps,
   {
-    like,
-    setNotification,
-    removeBlog
+    like
   }
 )(Blog)
 
