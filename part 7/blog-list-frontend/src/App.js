@@ -11,10 +11,11 @@ import Notification from './components/Notification'
 import AddNewBlog from './components/AddNewBlog'
 import Togglable from './components/Togglable'
 import Users from './components/Users'
+import User from './components/User'
 
 import { initializeBlogs, clearBlogs } from './reducers/blogReducer'
 import { initUser, exitUser } from './reducers/userReducer'
-import { initUserList } from './reducers/userListReducer'
+import { initUserList, clearUserList } from './reducers/userListReducer'
 
 
 
@@ -40,6 +41,7 @@ const App = (props) => {
     event.preventDefault()
     props.exitUser()
     props.clearBlogs()
+    props.clearUserList()
     window.localStorage.removeItem('loggedBloglistUser')
   }
 
@@ -68,6 +70,10 @@ const App = (props) => {
 
       <Route exact path="/users" render={() =>
         <Users />
+      } />
+
+      <Route exact path="/users/:id" render={({ match }) =>
+        <User id={match.params.id} />
       } />
 
       <Route exact path="/" render={() =>
@@ -105,6 +111,7 @@ export default connect(
     clearBlogs,
     initUser,
     exitUser,
-    initUserList
+    initUserList,
+    clearUserList
   }
 )(App)

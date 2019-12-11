@@ -4,6 +4,8 @@ import loginService from '../services/login'
 import { initUser } from '../reducers/userReducer'
 import { initializeBlogs } from '../reducers/blogReducer'
 import { setNotification } from '../reducers/notificationReducer'
+import { initUserList } from '../reducers/userListReducer'
+
 
 const Login = (props) => {
 
@@ -25,7 +27,7 @@ const Login = (props) => {
 
       props.initializeBlogs()
 
-      // props.initUserList()
+      props.initUserList('/api/users')
 
     } catch (exception) {
 
@@ -57,6 +59,7 @@ export default connect(
   {
     initUser,
     initializeBlogs,
-    setNotification
+    setNotification,
+    initUserList,
   }
 )(Login)

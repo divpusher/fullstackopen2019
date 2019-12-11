@@ -13,6 +13,17 @@ export const initUserList = (userListUrl) => {
 }
 
 
+
+export const clearUserList = () => {
+  return dispatch => {
+    dispatch({
+      type: 'CLEAR_USERLIST'
+    })
+  }
+}
+
+
+
 const userListReducer = (state = [], action) => {
   switch (action.type) {
     case 'INIT_USERLIST':
