@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { like } from '../reducers/blogReducer'
+import { like, addComment } from '../reducers/blogReducer'
 
 
 const Blog = (props) => {
@@ -9,6 +9,17 @@ const Blog = (props) => {
     return null
   }
 
+
+  const handleCommentSubmit = (e) => {
+    e.preventDefault()
+
+    props.addComment(props.blog.id, e.target.comment.value)
+
+    e.target.comment.value = ''
+  }
+
+
+
   return (
     <>
       <h2>{props.blog.title} by {props.blog.author}</h2>
@@ -16,7 +27,12 @@ const Blog = (props) => {
       <div>{props.blog.likes} likes <button onClick={() => props.like(props.blog.id, props.blog)}>like</button></div>
       <div>added by {props.blog.user.name}</div>
       <p>&nbsp;</p>
+
       <h3>comments</h3>
+      <form onSubmit={(e) => handleCommentSubmit(e)}>
+        <input type="text" name="comment" />
+        <button type="submit">add comment</button>
+      </form>
       <ul>{props.blog.comments.map(c =>
         <li key={c.id}>{c.comment}</li>
       )}
@@ -37,7 +53,8 @@ const mapStateToProps = (state, ownProps) => {
 const ConnectedBlog = connect(
   mapStateToProps,
   {
-    like
+    like,
+    addComment
   }
 )(Blog)
 

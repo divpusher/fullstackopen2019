@@ -104,22 +104,33 @@ blogsRouter.put('/:id', async (request, response, next) => {
 // add comment
 blogsRouter.post('/:id/comments', async (request, response, next) => {
   const body = request.body
+  const token = request.token
 
-  const comment = new Comment({
-    comment: body.comment,
-    blog: request.params.id
-  })
-  const savedComment = await comment.save()
+  try {
+
+    const decodedToken = jwt.verify(token, process.env.SECRET)
+    if (!token || !decodedToken.id) {
+      return response.status(401).json({ error: 'token missing or invalid' })
+    }
+
+    const comment = new Comment({
+      comment: body.comment,
+      blog: request.params.id
+    })
+    const savedComment = await comment.save()
 
 
-  const blog = await Blog.findById(request.params.id)
-  blog.comments = blog.comments.concat(savedComment._id)
-  await blog.save()
+    const blog = await Blog.findById(request.params.id)
+    blog.comments = blog.comments.concat(savedComment._id)
+    await blog.save()
 
 
-  response
-    .status(201)
-    .json(savedComment)
+    response.status(201).json(savedComment)
+
+  } catch(exception) {
+    next(exception)
+  }
+
 })
 
 

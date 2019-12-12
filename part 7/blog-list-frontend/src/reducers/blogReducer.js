@@ -68,6 +68,24 @@ export const like = (id, newObject) => {
 
 
 
+export const addComment = (id, comment) => {
+  return async (dispatch, getState) => {
+    const state = getState()
+    blogService.setToken(state.user.token)
+    const addedComment = await blogService.comment(id, comment)
+    dispatch({
+      type: 'NEW_COMMENT',
+      data: {
+        blogId: id,
+        comment: comment,
+        commentId: addedComment.id
+      }
+    })
+  }
+}
+
+
+
 const blogReducer = (state = [], action) => {
   // console.log('blogReducer is called', state, action)
 
@@ -96,6 +114,25 @@ const blogReducer = (state = [], action) => {
 
     case 'NEW_BLOG':
       return [...state, action.data]
+
+
+    case 'NEW_COMMENT':
+      const blogId = action.data.blogId
+      const comment = action.data.comment
+      const commentId = action.data.commentId
+
+      const blogToChange = state.find(b => b.id === blogId)
+      const changedBlog = {
+        ...blogToChange,
+        comments: blogToChange.comments.concat({
+          comment: comment,
+          id: commentId
+        })
+      }
+
+      return state.map(blog =>
+        blog.id !== blogId ? blog : changedBlog
+      )
 
 
     default:
