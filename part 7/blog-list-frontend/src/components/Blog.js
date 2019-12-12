@@ -15,6 +15,12 @@ const Blog = (props) => {
       <div><a href={props.blog.url} target="_blank" rel="noopener noreferrer">{props.blog.url}</a></div>
       <div>{props.blog.likes} likes <button onClick={() => props.like(props.blog.id, props.blog)}>like</button></div>
       <div>added by {props.blog.user.name}</div>
+      <p>&nbsp;</p>
+      <h3>comments</h3>
+      <ul>{props.blog.comments.map(c =>
+        <li key={c.id}>{c.comment}</li>
+      )}
+      </ul>
     </>
   )
 
