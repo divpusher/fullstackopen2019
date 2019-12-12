@@ -5,6 +5,7 @@ import {
   Route
 } from 'react-router-dom'
 
+import Menu from './components/Menu'
 import Login from './components/Login'
 import BlogList from './components/BlogList'
 import Blog from './components/Blog'
@@ -37,13 +38,12 @@ const App = (props) => {
   }, [props])
 
 
-
-  const handleLogout = (event) => {
-    event.preventDefault()
+  const handleLogout = () => {
     props.exitUser()
     props.clearBlogs()
     props.clearUserList()
     window.localStorage.removeItem('loggedBloglistUser')
+    window.location.href = '/'
   }
 
 
@@ -63,11 +63,11 @@ const App = (props) => {
   return (
     <>
     <Router>
-      <h2>blogs</h2>
+      <Menu username={props.user.name} handleLogout={handleLogout} />
+
+      <h2>blog app</h2>
 
       <Notification />
-
-      <p>{props.user.name} logged in <button onClick={handleLogout}>logout</button></p>
 
       <Route exact path="/users" render={() =>
         <Users />
@@ -83,8 +83,7 @@ const App = (props) => {
 
       <Route exact path="/" render={() =>
         <>
-          <h2>create new</h2>
-          <Togglable buttonLabel="new note">
+          <Togglable buttonLabel="create new">
             <AddNewBlog />
           </Togglable>
 
