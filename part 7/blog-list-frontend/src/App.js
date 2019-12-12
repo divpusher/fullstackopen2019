@@ -5,6 +5,8 @@ import {
   Route
 } from 'react-router-dom'
 
+import { Header, Icon } from 'semantic-ui-react'
+
 import Menu from './components/Menu'
 import Login from './components/Login'
 import BlogList from './components/BlogList'
@@ -52,7 +54,6 @@ const App = (props) => {
   if (props.user === null){
     return (
       <>
-        <h2>log in to application</h2>
         <Notification />
         <Login />
       </>
@@ -65,7 +66,10 @@ const App = (props) => {
     <Router>
       <Menu username={props.user.name} handleLogout={handleLogout} />
 
-      <h2>blog app</h2>
+      <Header as='h2' icon textAlign='center'>
+        <Icon name='coffee' circular />
+        <Header.Content>The blog app</Header.Content>
+      </Header>
 
       <Notification />
 
@@ -83,13 +87,11 @@ const App = (props) => {
 
       <Route exact path="/" render={() =>
         <>
+          <BlogList />
+
           <Togglable buttonLabel="create new">
             <AddNewBlog />
           </Togglable>
-
-          <p>&nbsp;</p>
-
-          <BlogList />
         </>
       } />
 

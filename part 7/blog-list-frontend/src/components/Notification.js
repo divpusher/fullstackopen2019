@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
+import { Message } from 'semantic-ui-react'
 
 const Notification = (props) => {
 
@@ -8,10 +9,16 @@ const Notification = (props) => {
     return null
   }
 
+
+  let inputProps = {
+    positive: (props.notification.type === 'success') ? true : false,
+    negative: (props.notification.type !== 'success') ? true : false
+  }
+
   return (
-    <div className={props.notification.type}>
+    <Message {...inputProps}>
       {props.notification.message}
-    </div>
+    </Message>
   )
 
 }

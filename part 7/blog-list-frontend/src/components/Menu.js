@@ -1,16 +1,33 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { Menu as SMenu, Segment } from 'semantic-ui-react'
 
 
 let Menu = (props) => {
 
   return (
-    <div className="menu">
-      <Link to="/">blogs</Link>
-      <Link to="/users/">users</Link>
-      {props.username} is logged in&nbsp;
-      <button onClick={() => props.handleLogout() }>logout</button>
-    </div>
+    <Segment inverted>
+      <SMenu inverted secondary>
+        <SMenu.Item
+          as={Link} to="/"
+          name="blogs"
+          />
+        <SMenu.Item
+          as={Link} to="/users/"
+          name="users"
+          />
+
+        <SMenu.Menu position='right'>
+          <SMenu.Item>
+            {props.username} is logged in
+          </SMenu.Item>
+          <SMenu.Item
+            name="logout"
+            onClick={() => props.handleLogout() }
+            />
+        </SMenu.Menu>
+      </SMenu>
+    </Segment>
   )
 
 }

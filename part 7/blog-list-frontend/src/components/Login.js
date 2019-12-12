@@ -1,5 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
+
+import { Form, Responsive, Container, Button } from 'semantic-ui-react'
+
 import loginService from '../services/login'
 import { initUser } from '../reducers/userReducer'
 import { initializeBlogs } from '../reducers/blogReducer'
@@ -39,17 +42,27 @@ const Login = (props) => {
 
 
   return (
-    <form onSubmit={handleLogin}>
-      <div>
-        username
-        <input type="text" name="username" />
-      </div>
-      <div>
-        password
-        <input type="password" name="password" />
-      </div>
-      <button type="submit">login</button>
-    </form>
+     <Responsive as={Container} textAlign="center">
+        <h2>Log in to application</h2>
+
+        <Form onSubmit={handleLogin} style={{ maxWidth: 300, margin: '0px auto' }}>
+          <Form.Input
+            icon='user'
+            iconPosition='left'
+            name='username'
+            placeholder='Username'
+          />
+          <Form.Input
+            icon='lock'
+            iconPosition='left'
+            name='password'
+            type='password'
+            placeholder='Password'
+          />
+
+          <Button content='Login' primary />
+        </Form>
+    </Responsive>
   )
 }
 

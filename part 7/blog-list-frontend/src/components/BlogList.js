@@ -2,25 +2,22 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
+import { List } from 'semantic-ui-react'
+
+
 
 const BlogList = (props) => {
 
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5
-  }
-
-
   return (
     <>
-      {props.visibleBlogs.map(blog =>
-        <div key={blog.id} style={blogStyle}>
-          <Link to={`/blogs/${blog.id}`}>{blog.title} {blog.author}</Link>
-        </div>
-      )}
+      <h2>Blogs</h2>
+      <List divided relaxed>
+        {props.visibleBlogs.map(blog =>
+          <List.Item key={blog.id}>
+            <Link to={`/blogs/${blog.id}`}>{blog.title} by {blog.author}</Link>
+          </List.Item>
+        )}
+      </List>
     </>
   )
 }
