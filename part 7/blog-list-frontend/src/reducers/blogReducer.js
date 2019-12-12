@@ -87,36 +87,40 @@ export const addComment = (id, comment) => {
 
 
 const blogReducer = (state = [], action) => {
-  // console.log('blogReducer is called', state, action)
 
   switch (action.type) {
 
-    case 'INIT_BLOGS':
+    case 'INIT_BLOGS': {
       return action.data
+    }
 
 
-    case 'CLEAR_BLOGS':
+    case 'CLEAR_BLOGS': {
       return []
+    }
 
 
-    case 'LIKE_BLOG':
+    case 'LIKE_BLOG': {
       const updatedBlogId = action.data.id
       return state.map(b =>
         b.id === updatedBlogId ? action.data : b
       )
+    }
 
 
-    case 'REMOVE_BLOG':
+    case 'REMOVE_BLOG': {
       return state.filter(b =>
         b.id !== action.data
       )
+    }
 
 
-    case 'NEW_BLOG':
+    case 'NEW_BLOG': {
       return [...state, action.data]
+    }
 
 
-    case 'NEW_COMMENT':
+    case 'NEW_COMMENT': {
       const blogId = action.data.blogId
       const comment = action.data.comment
       const commentId = action.data.commentId
@@ -133,10 +137,12 @@ const blogReducer = (state = [], action) => {
       return state.map(blog =>
         blog.id !== blogId ? blog : changedBlog
       )
+    }
 
 
-    default:
+    default: {
       return state
+    }
   }
 
 }

@@ -1,5 +1,5 @@
 
-export const initUser = (user) =>{
+export const initUser = (user) => {
   return dispatch => {
     dispatch({
       type: 'SET_USER',
@@ -9,7 +9,7 @@ export const initUser = (user) =>{
 }
 
 
-export const exitUser = (user) =>{
+export const exitUser = () => {
   return dispatch => {
     dispatch({
       type: 'EXIT_USER'

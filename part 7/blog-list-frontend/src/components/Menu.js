@@ -11,11 +11,11 @@ let Menu = (props) => {
         <SMenu.Item
           as={Link} to="/"
           name="blogs"
-          />
+        />
         <SMenu.Item
           as={Link} to="/users/"
           name="users"
-          />
+        />
 
         <SMenu.Menu position='right'>
           <SMenu.Item>
@@ -24,7 +24,7 @@ let Menu = (props) => {
           <SMenu.Item
             name="logout"
             onClick={() => props.handleLogout() }
-            />
+          />
         </SMenu.Menu>
       </SMenu>
     </Segment>

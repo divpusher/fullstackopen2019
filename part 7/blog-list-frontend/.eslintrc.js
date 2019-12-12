@@ -1,4 +1,9 @@
 module.exports = {
+  "settings": {
+    "react": {
+        version: require('./package.json').dependencies.react,
+    },
+  },
   "env": {
     "browser": true,
     "es6": true,
@@ -15,12 +20,15 @@ module.exports = {
     "sourceType": "module"
   },
   "plugins": [
-    "react", "jest"  ],
+    "react", "jest"
+  ],
   "rules": {
     "react/display-name": 0,
     "indent": [
         "error",
-        2      ],
+        2,
+        { "SwitchCase": 1 }
+    ],
     "linebreak-style": [
         "error",
         "unix"

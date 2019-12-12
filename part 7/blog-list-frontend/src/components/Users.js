@@ -17,14 +17,13 @@ const Users = (props) => (
         </Table.Row>
       </Table.Header>
 
-
-    <Table.Body>
-      {props.userList.map(user =>
-        <Table.Row key={user.id}>
-          <Table.Cell><Link to={`/users/${user.id}`}>{user.name}</Link></Table.Cell>
-          <Table.Cell>{user.blogs.length}</Table.Cell>
-        </Table.Row>
-      )}
+      <Table.Body>
+        {props.userList.map(user =>
+          <Table.Row key={user.id}>
+            <Table.Cell><Link to={`/users/${user.id}`}>{user.name}</Link></Table.Cell>
+            <Table.Cell>{user.blogs.length}</Table.Cell>
+          </Table.Row>
+        )}
       </Table.Body>
     </Table>
   </>

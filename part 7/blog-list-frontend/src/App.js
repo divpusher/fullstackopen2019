@@ -63,39 +63,39 @@ const App = (props) => {
 
   return (
     <>
-    <Router>
-      <Menu username={props.user.name} handleLogout={handleLogout} />
+      <Router>
+        <Menu username={props.user.name} handleLogout={handleLogout} />
 
-      <Header as='h2' icon textAlign='center'>
-        <Icon name='coffee' circular />
-        <Header.Content>The blog app</Header.Content>
-      </Header>
+        <Header as='h2' icon textAlign='center'>
+          <Icon name='coffee' circular />
+          <Header.Content>The blog app</Header.Content>
+        </Header>
 
-      <Notification />
+        <Notification />
 
-      <Route exact path="/users" render={() =>
-        <Users />
-      } />
+        <Route exact path="/users" render={() =>
+          <Users />
+        } />
 
-      <Route exact path="/users/:id" render={({ match }) =>
-        <User id={match.params.id} />
-      } />
+        <Route exact path="/users/:id" render={({ match }) =>
+          <User id={match.params.id} />
+        } />
 
-      <Route exact path="/blogs/:id" render={({ match }) =>
-        <Blog id={match.params.id} />
-      } />
+        <Route exact path="/blogs/:id" render={({ match }) =>
+          <Blog id={match.params.id} />
+        } />
 
-      <Route exact path="/" render={() =>
-        <>
-          <BlogList />
+        <Route exact path="/" render={() =>
+          <>
+            <BlogList />
 
-          <Togglable buttonLabel="create new">
-            <AddNewBlog />
-          </Togglable>
-        </>
-      } />
+            <Togglable buttonLabel="create new">
+              <AddNewBlog />
+            </Togglable>
+          </>
+        } />
 
-    </Router>
+      </Router>
     </>
   )
 }

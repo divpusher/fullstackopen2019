@@ -42,26 +42,26 @@ const Login = (props) => {
 
 
   return (
-     <Responsive as={Container} textAlign="center">
-        <h2>Log in to application</h2>
+    <Responsive as={Container} textAlign="center">
+      <h2>Log in to application</h2>
 
-        <Form onSubmit={handleLogin} style={{ maxWidth: 300, margin: '0px auto' }}>
-          <Form.Input
-            icon='user'
-            iconPosition='left'
-            name='username'
-            placeholder='Username'
-          />
-          <Form.Input
-            icon='lock'
-            iconPosition='left'
-            name='password'
-            type='password'
-            placeholder='Password'
-          />
+      <Form onSubmit={handleLogin} style={{ maxWidth: 300, margin: '0px auto' }}>
+        <Form.Input
+          icon='user'
+          iconPosition='left'
+          name='username'
+          placeholder='Username'
+        />
+        <Form.Input
+          icon='lock'
+          iconPosition='left'
+          name='password'
+          type='password'
+          placeholder='Password'
+        />
 
-          <Button content='Login' primary />
-        </Form>
+        <Button content='Login' primary />
+      </Form>
     </Responsive>
   )
 }
