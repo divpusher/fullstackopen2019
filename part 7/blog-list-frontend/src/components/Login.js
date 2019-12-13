@@ -30,7 +30,7 @@ const Login = (props) => {
 
       props.initializeBlogs()
 
-      props.initUserList('/api/users')
+      props.initUserList('http://localhost:3003/api/users')
 
     } catch (exception) {
 
@@ -43,7 +43,7 @@ const Login = (props) => {
 
   return (
     <Responsive as={Container} textAlign="center">
-      <h2>Log in to application</h2>
+      <h2>Log in to Application</h2>
 
       <Form onSubmit={handleLogin} style={{ maxWidth: 300, margin: '0px auto' }}>
         <Form.Input

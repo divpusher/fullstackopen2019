@@ -34,7 +34,7 @@ const App = (props) => {
 
       props.initializeBlogs()
 
-      props.initUserList('/api/users')
+      props.initUserList('http://localhost:3003/api/users')
     }
     console.log('first render')
   }, [props])
