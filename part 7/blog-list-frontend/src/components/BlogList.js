@@ -14,7 +14,7 @@ const BlogList = (props) => {
       <List divided relaxed>
         {props.visibleBlogs.map(blog =>
           <List.Item key={blog.id}>
-            <Link to={`/blogs/${blog.id}`}>{blog.title} by {blog.author}</Link>
+            <Link to={`/blogs/${blog.id}`}>{blog.title} from {blog.author}</Link>
           </List.Item>
         )}
       </List>

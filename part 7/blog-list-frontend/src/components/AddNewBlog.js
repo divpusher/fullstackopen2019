@@ -41,10 +41,10 @@ const AddNewBlog = (props) => {
 
   return (
     <form onSubmit={handleAddNewBlog}>
-      <div>title:<input {...title.attributes} /></div>
-      <div>author:<input {...author.attributes}  /></div>
-      <div>url:<input {...url.attributes}  /></div>
-      <div><button type="submit">create</button></div>
+      <div>title:<input data-cy="title" {...title.attributes} /></div>
+      <div>author:<input data-cy="author" {...author.attributes}  /></div>
+      <div>url:<input data-cy="url" {...url.attributes}  /></div>
+      <div><button type="submit" data-cy="submit">create</button></div>
     </form>
   )
 }
