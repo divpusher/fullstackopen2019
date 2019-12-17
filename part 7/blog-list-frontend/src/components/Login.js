@@ -51,6 +51,7 @@ const Login = (props) => {
           iconPosition='left'
           name='username'
           placeholder='Username'
+          data-cy='username'
         />
         <Form.Input
           icon='lock'
@@ -58,9 +59,10 @@ const Login = (props) => {
           name='password'
           type='password'
           placeholder='Password'
+          data-cy='password'
         />
 
-        <Button content='Login' primary />
+        <Button content='Login' data-cy='login' primary />
       </Form>
     </Responsive>
   )

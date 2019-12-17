@@ -23,6 +23,7 @@ let Menu = (props) => {
           </SMenu.Item>
           <SMenu.Item
             name="logout"
+            data-cy="logout"
             onClick={() => props.handleLogout() }
           />
         </SMenu.Menu>
