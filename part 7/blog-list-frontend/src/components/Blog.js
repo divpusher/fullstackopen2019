@@ -24,14 +24,14 @@ const Blog = (props) => {
     <>
       <h2>{props.blog.title} by {props.blog.author}</h2>
       <div><a href={props.blog.url} target="_blank" rel="noopener noreferrer">{props.blog.url}</a></div>
-      <div>{props.blog.likes} likes <button onClick={() => props.like(props.blog.id, props.blog)}>like</button></div>
+      <div>{props.blog.likes} likes <button data-cy="like" onClick={() => props.like(props.blog.id, props.blog)}>like</button></div>
       <div>added by {props.blog.user.name}</div>
       <p>&nbsp;</p>
 
       <h3>comments</h3>
       <form onSubmit={(e) => handleCommentSubmit(e)}>
-        <input type="text" name="comment" />
-        <button type="submit">add comment</button>
+        <input type="text" data-cy="comment" name="comment" />
+        <button type="submit" data-cy="submit">add comment</button>
       </form>
       <ul>{props.blog.comments.map(c =>
         <li key={c.id}>{c.comment}</li>
