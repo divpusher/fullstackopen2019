@@ -186,7 +186,7 @@ const resolvers = {
         born: args.setBornTo
       }
 
-      authors = authors.concat(updatedAuthor)
+      authors = authors.map(a => a.name === args.name ? updatedAuthor : a)
       return updatedAuthor
     }
   }
