@@ -109,20 +109,18 @@ const resolvers = {
         await author.save()
       }
 
-
       const book = new Book({
         ...args,
         author: author
       })
-      await book.save()
 
-      // try {
-        // return book.save()
-      // } catch (error) {
-        // throw new UserInputError(error.message, {
-          // invalidArgs: args,
-        // })
-      // }
+      try {
+        await book.save()
+      } catch (error) {
+        throw new UserInputError(error.message, {
+          invalidArgs: args,
+        })
+      }
 
       return book
     },

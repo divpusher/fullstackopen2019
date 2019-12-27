@@ -11,8 +11,7 @@ const ALL_AUTHORS = gql`
 {
   allAuthors  {
     name
-    born,
-    bookCount
+    born
   }
 }
 `
@@ -21,7 +20,10 @@ const ALL_BOOKS = gql`
 {
   allBooks  {
     title
-    published
+    published,
+    author{
+      name
+    }
   }
 }
 `
@@ -59,12 +61,26 @@ const EDIT_AUTHOR = gql`
 
 
 const App = () => {
+
+  const [errorMessage, setErrorMessage] = useState(null)
   const [page, setPage] = useState('authors')
   const authors = useQuery(ALL_AUTHORS)
   const books = useQuery(ALL_BOOKS)
 
+
+  const handleError = (error) => {
+    setErrorMessage(error.graphQLErrors[0].message)
+    setTimeout(() => {
+      setErrorMessage(null)
+    }, 10000)
+  }
+
   const [addBook] = useMutation(CREATE_BOOK, {
-    refetchQueries: [{ query: ALL_BOOKS }, { query: ALL_AUTHORS }]
+    onError: handleError,
+    refetchQueries: [
+      { query: ALL_BOOKS },
+      { query: ALL_AUTHORS }
+    ]
   })
 
   const [editAuthor] = useMutation(EDIT_AUTHOR, {
@@ -74,6 +90,12 @@ const App = () => {
 
   return (
     <div>
+      {errorMessage &&
+        <div style={{color: 'red'}}>
+        {errorMessage}
+        </div>
+      }
+
       <div>
         <button onClick={() => setPage('authors')}>authors</button>
         <button onClick={() => setPage('books')}>books</button>
