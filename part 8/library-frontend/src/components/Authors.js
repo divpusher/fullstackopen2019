@@ -20,7 +20,7 @@ const Authors = (props) => {
 
     await props.editAuthor({
       variables: {
-        name,
+        name: name,
         setBornTo: parseInt(born)
       }
     })
@@ -47,7 +47,7 @@ const Authors = (props) => {
           {props.authors.data.allAuthors.map(a =>
             <tr key={a.name}>
               <td>{a.name}</td>
-              <td>{a.born}</td>
+              <td>{a.born || '-'}</td>
               <td>{a.bookCount}</td>
             </tr>
           )}
@@ -61,9 +61,12 @@ const Authors = (props) => {
           <select
             value={name}
             onChange={({ target }) => setName(target.value)}
-          >{props.authors.data.allAuthors.map(a =>
-            <option key={a.name} value={a.name}>{a.name}</option>
-          )}</select>
+          >
+            <option key="" value="">-</option>
+            {props.authors.data.allAuthors.map(a =>
+              <option key={a.name} value={a.name}>{a.name}</option>
+            )}
+          </select>
         </div>
         <div>
           born
