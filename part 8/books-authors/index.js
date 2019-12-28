@@ -120,6 +120,12 @@ const resolvers = {
     }
   },
 
+  Book: {
+    author: root => {
+      return Author.findById(root.author)
+    }
+  },
+
   Mutation: {
     addBook: async (root, args, context) => {
 
