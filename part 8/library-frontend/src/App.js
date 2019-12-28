@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
-import { useQuery, useMutation } from '@apollo/react-hooks'
+import { useQuery, useMutation, useApolloClient } from '@apollo/react-hooks'
 import { gql } from 'apollo-boost'
 import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
+import LoginForm from './components/LoginForm'
 
 
 
@@ -59,12 +60,23 @@ const EDIT_AUTHOR = gql`
   }
 `
 
+const LOGIN = gql`
+  mutation login($username: String!, $password: String!) {
+    login(username: $username, password: $password)  {
+      value
+    }
+  }
+`
+
 
 
 const App = () => {
-
+  const [token, setToken] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
   const [page, setPage] = useState('authors')
+
+  const client = useApolloClient()
+
   const authors = useQuery(ALL_AUTHORS)
   const books = useQuery(ALL_BOOKS)
 
@@ -88,6 +100,17 @@ const App = () => {
     refetchQueries: [{ query: ALL_AUTHORS }]
   })
 
+  const [login] = useMutation(LOGIN, {
+    onError: handleError
+  })
+
+  const logout = () => {
+    setToken(null)
+    localStorage.clear()
+    client.resetStore()
+  }
+
+
 
   return (
     <div>
@@ -100,13 +123,21 @@ const App = () => {
       <div>
         <button onClick={() => setPage('authors')}>authors</button>
         <button onClick={() => setPage('books')}>books</button>
-        <button onClick={() => setPage('add')}>add book</button>
+        {token ? (
+          <>
+          <button onClick={() => setPage('add')}>add book</button>
+          <button onClick={() => logout()}>logout</button>
+          </>
+        ) : (
+          <button onClick={() => setPage('login')}>login</button>
+        )}
       </div>
 
       <Authors
         show={page === 'authors'}
         authors={authors}
         editAuthor={editAuthor}
+        token={token}
       />
 
       <Books
@@ -117,6 +148,13 @@ const App = () => {
       <NewBook
         show={page === 'add'}
         addBook={addBook}
+      />
+
+      <LoginForm
+        show={page === 'login'}
+        login={login}
+        setToken={(token) => setToken(token)}
+        setPage={(page) => setPage(page)}
       />
 
     </div>
