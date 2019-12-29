@@ -99,7 +99,7 @@ const App = () => {
     onError: handleError,
     refetchQueries: [
       { query: ALL_BOOKS },
-      { query: ALL_AUTHORS }
+      { query: ALL_AUTHORS },
     ]
   })
 
@@ -158,6 +158,7 @@ const App = () => {
       <Books
         show={page === 'books'}
         books={books}
+        client={client}
       />
 
       <NewBook
