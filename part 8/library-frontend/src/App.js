@@ -75,10 +75,13 @@ const LOGIN = gql`
 const BOOK_ADDED = gql`
   subscription {
     bookAdded {
+      id,
       title,
+      published,
       author{
         name
-      }
+      },
+      genres
     }
   }
 `
@@ -135,8 +138,28 @@ const App = () => {
   }
 
 
+
+  const updateCacheWith = (addedBook) => {
+    const includedIn = (set, object) =>
+      set.map(p => p.id).includes(object.id)
+
+    const dataInStore = client.readQuery({ query: ALL_BOOKS })
+    console.log('readstore', dataInStore.allBooks)
+    console.log(addedBook)
+    if (!includedIn(dataInStore.allBooks, addedBook)) {
+      console.log('adding new book to cache')
+      dataInStore.allBooks.push(addedBook)
+      client.writeQuery({
+        query: ALL_BOOKS,
+        data: dataInStore
+      })
+    }
+  }
+
   useSubscription(BOOK_ADDED, {
     onSubscriptionData: ({ subscriptionData }) => {
+      const addedBook = subscriptionData.data.bookAdded
+      updateCacheWith(addedBook)
       window.alert('A new book was added just now')
     }
   })
