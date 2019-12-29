@@ -23,7 +23,7 @@ const Books = (props) => {
 
 
   let bookList = props.books.data.allBooks
-  if(genre){
+  if (genre){
     bookList = bookList.filter(b =>
       b.genres.includes(genre)
     )

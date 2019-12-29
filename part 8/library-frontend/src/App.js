@@ -20,19 +20,9 @@ const ALL_AUTHORS = gql`
 `
 
 
-const CURRENT_USER = gql`
-{
-  me{
-    username
-    favoriteGenre
-  }
-}
-`
-
-
 const ALL_BOOKS = gql`
 {
-  allBooks  {
+  allBooks {
     title
     published
     author{
@@ -42,6 +32,7 @@ const ALL_BOOKS = gql`
   }
 }
 `
+
 
 const CREATE_BOOK = gql`
   mutation addBook($title: String!, $author: String!, $published: Int!, $genres: [String!]!) {
@@ -83,6 +74,7 @@ const LOGIN = gql`
 
 
 
+
 const App = () => {
   const [token, setToken] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
@@ -92,7 +84,7 @@ const App = () => {
 
   const authors = useQuery(ALL_AUTHORS)
   const books = useQuery(ALL_BOOKS)
-  const currentUser = useQuery(CURRENT_USER)
+
 
 
   const handleError = (error) => {
@@ -102,6 +94,7 @@ const App = () => {
     }, 10000)
   }
 
+
   const [addBook] = useMutation(CREATE_BOOK, {
     onError: handleError,
     refetchQueries: [
@@ -110,19 +103,25 @@ const App = () => {
     ]
   })
 
+
   const [editAuthor] = useMutation(EDIT_AUTHOR, {
     refetchQueries: [{ query: ALL_AUTHORS }]
   })
 
+
+
   const [login] = useMutation(LOGIN, {
-    onError: handleError,
-    refetchQueries: [{ query: CURRENT_USER }]
+    onError: handleError
   })
+
+
 
   const logout = () => {
     setToken(null)
     localStorage.clear()
     client.resetStore()
+    client.clearStore()
+    setPage('authors')
   }
 
 
@@ -173,11 +172,13 @@ const App = () => {
         setPage={(page) => setPage(page)}
       />
 
-      <Recommendations
-        show={page === 'rec'}
-        books={books}
-        currentUser={currentUser}
-      />
+      {token && page === 'rec' &&
+        <Recommendations
+        client={client}
+        />
+      }
+
+
 
     </div>
   )
