@@ -45,6 +45,7 @@ const typeDefs = gql`
     name: String!
     born: Int
     id: ID!
+    books: [Book!]!
     bookCount: Int!
   }
 
@@ -113,7 +114,9 @@ const resolvers = {
         })
       }
     },
-    allAuthors: () => Author.find({}),
+    allAuthors: () => {
+      return Author.find({}).populate('books')
+    },
     me: (root, args, context) => {
       return context.currentUser
     }
@@ -121,9 +124,7 @@ const resolvers = {
 
   Author: {
     bookCount: (root) => {
-      return Book.find({
-        author: mongoose.Types.ObjectId(root.id)
-      }).countDocuments()
+      return root.books.length
     }
   },
 
@@ -142,6 +143,7 @@ const resolvers = {
       }
 
 
+      // create new author if not exists in db
       let author = await Author.findOne({ name: args.author })
       if (!author){
         author = new Author({
@@ -151,6 +153,7 @@ const resolvers = {
         await author.save()
       }
 
+
       const book = new Book({
         ...args,
         author: author
@@ -158,6 +161,10 @@ const resolvers = {
 
       try {
         await book.save()
+
+        author.books = author.books.concat(book._id)
+        await author.save()
+
       } catch (error) {
         throw new UserInputError(error.message, {
           invalidArgs: args,
